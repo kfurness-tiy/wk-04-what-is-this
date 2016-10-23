@@ -258,13 +258,20 @@ var confusing = {
 
 
 // * Problem 17
-var newObject = new inAFunction('what will', 'happen?');
-newObject.test3('C', 'D');
+// var newObject = new inAFunction('what will', 'happen?');
+// newObject.test3('C', 'D');
 /*
 - "this" is ...
     The first reference to 'this' is the window object
-    The second reference to 'this' is
+    The second reference to 'this' refers to the specific object created with the Constructor and is returned by that Constructor
 - because ...
+    #1: when newObject is created, it calls 'inAFunction' which calls "whatIsThis" function, in which 'this' refers to the window object. This function does NOT have an owner object, so the value is a global valuse which is the browser window.
+
+      "When a function is called without an owner object, the value of this becomes the global object.
+      In a web browser the global object is the browser window."
+        -got from http://www.w3schools.com/js/js_function_invocation.asp
+
+    #2: In the second "this is", this is referring to the inAFunction object and points towards 'Sally.' We are specifically referring to the object created (which is 'newObject') and assigning it to a method 'test3' which calls the function 'whatIsThis,' and this will refer to the constructor function which is inAFunction.
 
 */
 
@@ -275,9 +282,9 @@ newObject.test3('C', 'D');
 // inAnObject.test1.call(trickyTricky, 'face', 'book');
 /*
 - "this" is ...
-
+    object trickyTricky
 - because ...
-
+    Once again we are using the method 'call' in which the first parameter (in this case, trickyTricky), is what 'this' will refer to.
 */
 
 
@@ -287,7 +294,7 @@ newObject.test3('C', 'D');
 // inAnObject.anotherObject.test2.apply(confusing, ['foo', 'bar']);
 /*
 - "this" is ...
-
+    object confusing
 - because ...
-
+    We are using the method 'apply' in which the first parameter (in this case is the object confusing) is what this will refer to. It works because the second parameter is an array.
 */
