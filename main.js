@@ -18,6 +18,8 @@ var inAnObject = {
 
 var inAFunction = function(a, b) {
     this.name = 'Sally';
+    console.log('This inside inAFunction is...', this);
+    // this.test4 = whatIsThis;
     whatIsThis(a, b);
 };
 
@@ -50,11 +52,13 @@ var confusing = {
 // whatIsThis('hello', 'world');
 /*
 - "this" is ...
-      the window object
+      'Default Location', in this case:
+      the window object when run through chrome
 - because ...
     "Whenever a function is contained in the global scope, the value of this inside of that function will be the window object."
     -got from https://john-dugan.com/this-in-javascript/
-    This function is in the global scope.
+    This function is in the global scope so it will be the window object on the browser of the default location in terminal. This is looking for an object, but cannot find it in the function, so it goes up to the next level, which is the default location.
+    This function is the same as window.whatIsThis('hello','world')
 */
 
 
@@ -64,11 +68,11 @@ var confusing = {
 // window.whatIsThis('hello', 'world');
 /*
 - "this" is ...
-    the window object
+    the window object or not defined (in terminal)
 - because ...
-    This is kind of like a meta statement.
     "The window property of a window object points to the window object itself. Thus the following expressions all return the same window object:"
     -got from https://developer.mozilla.org/en-US/docs/Web/API/Window/window
+    This is implicitely bound to the window, but the terminal does not have a browswer, so it will through an error.
 */
 
 
@@ -83,6 +87,8 @@ var confusing = {
     "Whenever a function is called by a preceding dot, the object before that dot is this."
         -got from https://john-dugan.com/this-in-javascript/
     Test1 is a function that has the word "this" in it. inAnObject is the object before the function and 'this' will be referring to that.
+
+    'this' is implicitely bound to "inAnObject"
 */
 
 
@@ -108,6 +114,8 @@ var confusing = {
 - because ...
     When a function is called (in this case test2), by a preceding dot, the object before that dot (in this case anotherObject) is "this."
         -got from https://john-dugan.com/this-in-javascript/ again
+
+    this is implicitely bound to anotherObject
 */
 
 
@@ -117,9 +125,10 @@ var confusing = {
 // whatIsThis.call();
 /*
 - "this" is ...
-    Window object
+    Window object/Default Location
 - because ...
-    When you use call, "this" will usually be applied to the first parameter. Since this has no parameter, it will be applied to the "whatIsThis" function, which will result in the window object
+    When you use call, "this" will usually be applied to the first parameter. Since this has no parameter, it will be applied to the "whatIsThis" function, which will result in the window object (default location)
+
 */
 
 
@@ -133,7 +142,9 @@ var confusing = {
 - because ...
     Whenever JavaScript’s call or apply method is used, this is explicitly defined.
       -got from "https://john-dugan.com/this-in-javascript/"
-    This uses call, which asks for the "trickyTricky" object, which this refers to.
+    This example uses call, which asks for the "trickyTricky" object, which this explicitly refers to.
+
+    a & b are undefined because there are no parameters given after trickyTricky
 */
 
 
@@ -145,7 +156,9 @@ var confusing = {
 - "this" is ...
     object trickyTricky
 - because ...
-    This is trickyTricky... AND because the first parameter in call is trickyTricky, "this" will refer to this (see what I did here?) object.
+    This is trickyTricky... AND because the first parameter in call is trickyTricky, "this" will explicitly refer to this (see what I did here?) object.
+
+    The other 2 parameters will used as arguments for the whatIsThis function.
 
     "JavaScript’s call and apply methods allow you to execute a function in a different context. The first argument passed to either of these methods explicitly sets what this points to."
       -got from https://john-dugan.com/this-in-javascript/
@@ -160,7 +173,8 @@ var confusing = {
 - "this" is ...
     object 'confusing'
 - because ...
-    just like the problems above, 'this' is explicitly defined by call, so it will refere to the object within call, which in this case is confusing.
+    just like the problems above, 'this' is explicitly defined by call, so it will refer to the object within call, which in this case is confusing.
+    There are no more parameters past confusing in call, so whatIsThis has no arguments to pass.
 */
 
 
@@ -173,6 +187,7 @@ var confusing = {
     object 'confusing'
 - because ...
     when you use call, the first parameter is 'confusing,' which is an object. The first parameter is what this is going to refer to, which will be 'confusing.'
+    There is another parameter of 'hello' which gets passed as the first argument in 'whatIsThis', but there is no parameters after that, so argument 'b' will not be passed anything.
 */
 
 
@@ -200,6 +215,7 @@ var confusing = {
     the object 'confusing'
 - because ...
     Just like above, 'apply' will set the first argument (in this case confusing), to be what this refers to. Remember, first parameter in '.apply' = this.
+    The array is used as the arguments for whatIsThis, so that's why we get a and b consoled as nice & job.
 */
 
 
@@ -225,9 +241,9 @@ var confusing = {
 // inAFunction('what will', 'happen?');
 /*
 - "this" is ...
-      the window object
+      the window object (default location)
 - because ...
-      The 'this' that is being logged in the console is coming from the 'whatIsThis' function, which is a function on the global scope which returns the window object when referring to this.
+      The 'this' that is being logged in the console is coming from the 'whatIsThis' function, which is a function on the global scope which is implicitly bound the window object/default location when referring to this.
 */
 
 
@@ -239,7 +255,7 @@ var confusing = {
 - "this" is ...
     an error!!!!
 - because ...
-    Pretty convenient that the console tells you that test3 is not a function. And it's right, test3 is not a function, so it could not be called if it does not exist. It's not a function because was not assigned as a Constructor for test3. One would need to claim a variable and set it equal to new inAFunction for this to happen. I think...
+    Pretty convenient that the console tells you that test3 is not a function. And it's right, test3 is not a function in inAnObject, so it could not be called if it does not exist. It's not a function because was not assigned as a Constructor for test3. One would need to claim a variable and set it equal to new inAFunction for this to happen. I think...
 */
 
 
@@ -251,7 +267,8 @@ var confusing = {
 - "this" is ...
     the window object
 - because ...
-      The 'this' that is being logged in the console is coming from the 'whatIsThis' function, which is a function on the global scope which returns the window object when referring to this. We are in the global scope, not inside of an object.
+    The new assigns this to the newObject. When it goes through the whatIsThis in inAFunction, it loses it's binding to the new object created because whatIsThis is not declared as a method. It is just a function. So when whatIsThis runs, this has no binding, so this refers to the global value/window object.
+
 */
 
 
@@ -259,19 +276,21 @@ var confusing = {
 
 // * Problem 17
 // var newObject = new inAFunction('what will', 'happen?');
+// newObject.test4('now', 'what');
 // newObject.test3('C', 'D');
 /*
 - "this" is ...
     The first reference to 'this' is the window object
     The second reference to 'this' refers to the specific object created with the Constructor and is returned by that Constructor
 - because ...
-    #1: when newObject is created, it calls 'inAFunction' which calls "whatIsThis" function, in which 'this' refers to the window object. This function does NOT have an owner object, so the value is a global valuse which is the browser window.
+    #1: when newObject is created, it inherits the methods of 'inAFunction' and this is bound to newObject.  inAFunction calls "whatIsThis", and newObject loses it's binding to 'this' just like above because what is this is a function, not a method. In the end, 'this'  does NOT have an owner object, so the value is a global value which is the browser window.
 
       "When a function is called without an owner object, the value of this becomes the global object.
       In a web browser the global object is the browser window."
         -got from http://www.w3schools.com/js/js_function_invocation.asp
 
-    #2: In the second "this is", this is referring to the inAFunction object and points towards 'Sally.' We are specifically referring to the object created (which is 'newObject') and assigning it to a method 'test3' which calls the function 'whatIsThis,' and this will refer to the constructor function which is inAFunction.
+    #2 & #3:
+    'this' is referring to the newObject because we are referencing test 3 & 4, which are methods, so newObject does not lose it's binding to this!
 
 */
 
@@ -291,7 +310,7 @@ var confusing = {
 
 
 // * Problem 19
-// inAnObject.anotherObject.test2.apply(confusing, ['foo', 'bar']);
+inAnObject.anotherObject.test2.apply(confusing, ['foo', 'bar']);
 /*
 - "this" is ...
     object confusing
