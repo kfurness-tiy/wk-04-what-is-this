@@ -3,10 +3,57 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>What is This?</title>
+    <title>this</title>
   </head>
   <body>
 
+        <h3><code>this</code></h3>
+        <ol>
+          <li>called with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new"><code>new</code> operator</a> - new binding
+            <ul>
+              <li>ex: <code>var dog = new Animal();</code></li>
+              <li><code>.this</code> is the newly constructed object; e.g. '<code>dog</code>'</li>
+            </ul>
+          </li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call"><code>.call</code></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply"><code>.apply</code></a> - hard binding
+            <ul>
+              <li>ex 1: <code>whatIsThis.call(trickyTricky, 'nice', 'job');</code></li>
+              <li>ex 2: <code>whatIsThis.apply(confusing, ['nice', 'job']);</code></li>
+              <li><code>.this</code> is the explicitely specified object; e.g. '<code>trickyTricky</code>' or '<code>confusing</code>'</li>
+            </ul>
+          </li>
+          <li>function called with a context - implicit binding
+            <ul>
+              <li>ex: <code>inAnObject.test1('face', 'book');</code></li>
+              <li><code>.this</code> is the context object; e.g. '<code>inAnObject</code>'</li>
+            </ul>
+          </li>
+          <li>otherwise - default binding
+            <ul>
+              <li>ex: <code>var cookie = cuddle();</code></li>
+              <li>if <code>'use strict';</code>
+                <br/>&emsp;then <code>undefined</code>
+                <br/>&emsp;else <code>global</code></li>
+            </ul>
+          </li>
+        </ol>
+        <h3>References:</h3>
+        <ul>
+          <li>Videos:
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=JduQUNn7L4w">Keeping Track of "This" in JavaScript</a></li>
+              <li><a href="https://www.youtube.com/watch?v=rOXwduYH0Z0">JavaScript Video Tutorial - The Behavior of "This" in JavaScript</a></li>
+              <li><a href="https://www.youtube.com/watch?v=cw6-Jp4smGw">Javascript:Lesson32-Objects, Functions and 'this'</a> from "<a href="https://www.udemy.com/understand-javascript/">JavaScript: Understanding the Weird Parts</a>" by Anthony Alicea</li>
+              <li><a href="https://www.youtube.com/watch?v=c0mLRpw-9rI">javaScript call apply and bind</a> by techsith</li>
+            </ul>
+          </li>
+          <li>Reading:
+            <ul>
+              <li><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch2.md">"Chapter 2: <code>this</code> All Makes Sense Now!"</a>, <i>this &amp; Object Prototypes</i>, by Kyle Simpson (part of the <a href="https://github.com/getify/You-Dont-Know-JS">"You Don't Know JS" series</a>)</li>
+            </ul></li>
+        </ul>
+
+
+  <script src="whatIsThis.js"></script>
   </body>
-  <script src="main.js"></script>
 </html>
